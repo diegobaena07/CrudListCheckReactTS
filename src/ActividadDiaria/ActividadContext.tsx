@@ -41,7 +41,7 @@ export const ActividadContextProvider = ({ children }: any) => {
         descripcion: "",
     });
 
-    //Creando un formato para las fechas
+    //Creando un formato para la fecha
     const formatearFecha = (fecha: Date) => {
         const año = fecha.getFullYear();
         const mes = String(fecha.getMonth() + 1).padStart(2, '0');
