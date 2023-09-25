@@ -58,44 +58,44 @@ export const ActividadContextProvider = ({ children }: any) => {
 
     //Creando tareas
     const Create = (record: Tarea) => {
-        var NuevaTarea = { ...record };
-        var lista = tareas
-        lista.push(NuevaTarea);
-        setTareas(lista)
+        var ListaTarea = [...tareas];
+        ListaTarea.push(record);
+        setTareas(ListaTarea)
     }
 
     //Editando tareas
     const Update = (record: Tarea) => {
-        var TareaEdit = { ...record }
-        var IndexTarea = tareas.findIndex((tarea) => (tarea.id === TareaEdit.id))
-        var Tareas = [...tareas]
-        Tareas[IndexTarea] = TareaEdit
-        setTareas(Tareas)
+        var ListaTarea = [...tareas];
+        var IndexTarea = ListaTarea.findIndex((tarea) => (tarea.id === record.id));
+        ListaTarea[IndexTarea] = record;
+        setTareas(ListaTarea);
     }
 
     //Elminando tareas
     const Delete = (record: Tarea) => {
-        var TareaDele = { ...record }
-        var IndexTarea = tareas.findIndex((tarea) => (tarea.id === TareaDele.id))
-        var Tareas = [...tareas]
-        Tareas.splice(IndexTarea, 1);
-        setTareas(Tareas)
+        var ListaTarea = [...tareas];
+        var IndexTarea = ListaTarea.findIndex((tarea) => (tarea.id === record.id));
+        delete ListaTarea[IndexTarea];
+        setTareas(ListaTarea);
     }
 
     //Ejecutando las funcionas apenas se inicie el proyecto comentado el realtime
     useEffect(() => {
+        pb.collection('Tareas').subscribe<Tarea>('*', function (e) {
+            if (e.action === "delete") {
+                Delete(e.record)
+            } else if (e.action === "update") {
+                Update(e.record)
+            } else if (e.action === "create") {
+                Create(e.record)
+            }
+        });
+    });
+
+    useEffect(() => {
         formatearFecha(new Date);
         ConsultarTareas();
-        // pb.collection('Tareas').subscribe<Tarea>('*', function (e) {
-        //     if (e.action === "delete") {
-        //         Delete(e.record)
-        //     } else if (e.action === "update") {
-        //         Update(e.record)
-        //     } else if (e.action === "create") {
-        //         Create(e.record)
-        //     }
-        // });
-    }, [/*console.log(tareas)*/]);
+    }, [])
 
     return (
         <ActividadContext.Provider value={{
