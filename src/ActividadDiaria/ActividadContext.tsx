@@ -66,8 +66,8 @@ export const ActividadContextProvider = ({ children }: any) => {
 
     //Editando tareas
     const Update = (record: Tarea) => {
-        var TareaEdit = {...record}
-        var IndexTarea = tareas.findIndex((tarea)=> (tarea.id === TareaEdit.id))
+        var TareaEdit = { ...record }
+        var IndexTarea = tareas.findIndex((tarea) => (tarea.id === TareaEdit.id))
         var Tareas = [...tareas]
         Tareas[IndexTarea] = TareaEdit
         setTareas(Tareas)
@@ -75,14 +75,14 @@ export const ActividadContextProvider = ({ children }: any) => {
 
     //Elminando tareas
     const Delete = (record: Tarea) => {
-        var TareaDele = {...record}
+        var TareaDele = { ...record }
         var IndexTarea = tareas.findIndex((tarea) => (tarea.id === TareaDele.id))
         var Tareas = [...tareas]
         Tareas.splice(IndexTarea, 1);
         setTareas(Tareas)
     }
 
-    //Ejecutando las funcionas apenas se inicie el proyecto
+    //Ejecutando las funcionas apenas se inicie el proyecto comentado el realtime
     useEffect(() => {
         formatearFecha(new Date);
         ConsultarTareas();
