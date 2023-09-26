@@ -90,6 +90,11 @@ export const ActividadContextProvider = ({ children }: any) => {
                 Create(e.record)
             }
         });
+
+        return () => {
+            pb.realtime.unsubscribe();
+        }
+
     });
 
     useEffect(() => {
